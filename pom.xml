@@ -18,24 +18,10 @@
     <properties>
         <testng.version>6.14.3</testng.version>
         <junit.version>4.12</junit.version>
-        <surefire.version>2.22.1</surefire.version>
-        <testng.xml.path>src/test/resources/testng.xml</testng.xml.path>
+        <surefire.version>2.22.2</surefire.version>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>localrepo</id>
-            <name>local repository</name>
-            <url>file:${project.basedir}/lib</url>
-        </repository>
-    </repositories>
-
     <dependencies>
-        <dependency>
-            <groupId>ru.levelup</groupId>
-            <artifactId>calculator</artifactId>
-            <version>1.0</version>
-        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -134,16 +120,9 @@
                         </property>
                     </properties>
                     <threadCount>1</threadCount>
-                    <!--groups>MultDivCategory</groups-->
-                    <!--suiteXmlFiles-->
-                    <!--suiteXmlFile>${testng.xml.path}</suiteXmlFile-->
-                    <!--suiteXmlFile>testSelenium.xml</suiteXmlFile-->
-                    <!--/suiteXmlFiles-->
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
-
 
 </project>
