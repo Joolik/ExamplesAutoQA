@@ -15,7 +15,7 @@ public abstract class BaseRequests {
     private static final String TEST_BASE_URI = "http://khda91.fvds.ru/mantisbt/api/rest";
     private static final String AUTH_TOKEN = "XNd5tIXXB7U8FV4C8w0nao0WYr5S0nN7";
 
-    protected static RequestSpecification getRequestSpecificationWithBody(Object obj) {
+    protected RequestSpecification getRequestSpecificationWithBody(Object obj) {
             return new RequestSpecBuilder()
                 .setBaseUri(TEST_BASE_URI)
                 .addHeader("Authorization", AUTH_TOKEN)
@@ -25,7 +25,7 @@ public abstract class BaseRequests {
                 .build();
     }
 
-    protected static RequestSpecification getRequestSpecificationWithBody(Object obj, Map mapPathParams) {
+    protected RequestSpecification getRequestSpecificationWithBody(Object obj, Map mapPathParams) {
         return new RequestSpecBuilder()
                 .setBaseUri(TEST_BASE_URI)
                 .addHeader("Authorization", AUTH_TOKEN)
@@ -36,7 +36,7 @@ public abstract class BaseRequests {
                 .build();
     }
 
-    protected static RequestSpecification getRequestSpecification() {
+    protected RequestSpecification getRequestSpecification() {
         return new RequestSpecBuilder()
                 .setBaseUri(TEST_BASE_URI)
                 .addHeader("Authorization", AUTH_TOKEN)

@@ -1,24 +1,32 @@
 import io.restassured.response.Response;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import data.TestData;
 import entities.users.User;
+import requests.UserRequests;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static requests.BaseRequests.getResponseObject;
-import static requests.UserRequests.*;
 
 public class UserAPITest {
 
     private long userId;
+
+    private UserRequests reqUser;
+
+    @BeforeClass
+    public void setUpProject() {
+        reqUser = new UserRequests();
+    }
 
     /*
      * Создание пользователя (двух пользователей)
      */
     @Test(dataProvider = "userDataProvider", dataProviderClass = TestData.class)
     public void addUserTest(final User user) {
-        Response response = addUser(user);
+        Response response = reqUser.addUser(user);
         response.then()
                 .log().status()
                 .statusCode(201)
@@ -37,7 +45,7 @@ public class UserAPITest {
      */
     @Test(dependsOnMethods = "addUserTest")
     public void deleteUserTest() {
-        deleteUser(userId)
+        reqUser.deleteUser(userId)
         .then()
                 .log().status()
                 .statusCode(204);
@@ -48,7 +56,7 @@ public class UserAPITest {
      */
     @Test(dependsOnMethods = "deleteUserTest")
     public void deleteUserNonExistTest() {
-        deleteUser(userId)
+        reqUser.deleteUser(userId)
                 .then()
                 .log().status()
                 .statusCode(404)

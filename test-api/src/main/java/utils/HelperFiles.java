@@ -1,6 +1,6 @@
 package utils;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import java.util.Base64;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
@@ -14,7 +14,7 @@ public class HelperFiles {
     public static String convertFileToBase64(String fullFileName) {
         String result = null;
         try {
-            result = Base64.encode(org.apache.commons.io.FileUtils.readFileToByteArray(new File(fullFileName)));
+            result = Base64.getEncoder().encodeToString(org.apache.commons.io.FileUtils.readFileToByteArray(new File(fullFileName)));
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

@@ -16,14 +16,14 @@ public class ProjectRequests extends BaseRequests {
     private static final String SUBPROJECT_ENDPOINT = "/projects/{project_id}/subprojects";
 
 
-    public static Response addProject(Project project) {
+    public Response addProject(Project project) {
         return given()
                 .spec(getRequestSpecificationWithBody(project))
                 .when()
                 .post(PROJECT_ENDPOINT);
     }
 
-    public static Response addSubproject(SubProject subProject, long mainProjectId) {
+    public Response addSubproject(SubProject subProject, long mainProjectId) {
         Map<String, Long> mapPathParams = new HashMap<>();
         mapPathParams.put("project_id", mainProjectId);
         return given()
@@ -32,7 +32,7 @@ public class ProjectRequests extends BaseRequests {
                 .post(SUBPROJECT_ENDPOINT);
     }
 
-    public static Response deleteProject(long projectId) {
+    public Response deleteProject(long projectId) {
         return given()
                 .spec(getRequestSpecification())
                 .pathParam("project_id", projectId)
@@ -40,14 +40,14 @@ public class ProjectRequests extends BaseRequests {
                 .delete(PROJECT_ENDPOINT + "{project_id}");
     }
 
-    private static Response getAllProjects() {
+    private Response getAllProjects() {
         return given()
                 .spec(getRequestSpecification())
                 .when()
                 .get(PROJECT_ENDPOINT);
     }
 
-    public static long getMaxProjectId() {
+    public long getMaxProjectId() {
 
         Response response = getAllProjects();
 

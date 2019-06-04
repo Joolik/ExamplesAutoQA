@@ -19,8 +19,8 @@ public abstract class BaseTest {
     private ChromeOptions options;
     private Properties properties;
 
-    @BeforeSuite(alwaysRun = true)
-    public void setUpSuite() {
+    @BeforeClass(alwaysRun = true)
+    public void setUpClass() {
         WebDriverManager.chromedriver().setup();
         properties = new Properties();
         try {
@@ -28,10 +28,6 @@ public abstract class BaseTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @BeforeClass(alwaysRun = true)
-    public void setUpClass() {
         options = new ChromeOptions();
         options.addArguments("--lang=en");
     }
@@ -49,11 +45,6 @@ public abstract class BaseTest {
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
-        driver.close();
-    }
-
-    @AfterSuite(alwaysRun = true)
-    public void tearDownSuite() {
         driver.quit();
     }
 

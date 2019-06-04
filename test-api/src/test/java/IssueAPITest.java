@@ -1,21 +1,29 @@
 import io.restassured.response.Response;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import data.TestData;
 import entities.issues.Issue;
+import requests.IssueRequests;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static requests.BaseRequests.getResponseObject;
-import static requests.IssueRequests.*;
 
 public class IssueAPITest {
+
+    private IssueRequests reqIssue;
+
+    @BeforeClass
+    public void setUpIssue() {
+        reqIssue = new IssueRequests();
+    }
 
     /*
      * Создание issue с attachment
      */
     @Test(dataProvider = "issueDataProvider", dataProviderClass = TestData.class)
     public void addIssueTest(final Issue issue) {
-        Response response = addIssue(issue);
+        Response response = reqIssue.addIssue(issue);
         response.then()
                 .log().status()
                 .statusCode(201);
@@ -30,14 +38,14 @@ public class IssueAPITest {
     public void updateIssueTest(final Issue issue, final Issue issueUpdated) {
 
         // Создание issue
-        Response response = addIssue(issue);
+        Response response = reqIssue.addIssue(issue);
         response.then()
                 .log().status()
                 .statusCode(201);
         Issue responseIssue = getResponseObject(response.getBody().asString(), Issue.class);
 
         // Обновление созданного issue
-        updateIssue(issueUpdated, responseIssue.getId())
+        reqIssue.updateIssue(issueUpdated, responseIssue.getId())
                 .then()
                 .log().status()
                 .statusCode(200);
@@ -48,7 +56,7 @@ public class IssueAPITest {
      */
     @Test(dataProvider = "issueUpdateDataProvider", dataProviderClass = TestData.class)
     public void updateIssueNonExistTest(final Issue issue, final Issue issueUpdated) {
-        updateIssue(issueUpdated, getMaxIssueId() + 100)
+        reqIssue.updateIssue(issueUpdated, reqIssue.getMaxIssueId() + 100)
                 .then()
                 .log().status()
                 .statusCode(404);

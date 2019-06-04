@@ -1,23 +1,31 @@
 import io.restassured.response.Response;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import data.TestData;
 import entities.projects.*;
+import requests.ProjectRequests;
 
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static requests.BaseRequests.getResponseObject;
-import static requests.ProjectRequests.*;
 
 public class ProjectAPITest {
+
+    private ProjectRequests reqProject;
+
+    @BeforeClass
+    public void setUpProject() {
+        reqProject = new ProjectRequests();
+    }
 
     /*
      *  Создание проекта
      */
     @Test(dataProvider = "projectDataProvider", dataProviderClass = TestData.class)
     public void addProjectTest(final Project project)  {
-        Response response = addProject(project);
+        Response response = reqProject.addProject(project);
         response.then()
                 .log().status()
                 .statusCode(201);
@@ -38,13 +46,13 @@ public class ProjectAPITest {
         assertThat("Неверные тестовые данные", projectsList.size(), greaterThanOrEqualTo(2));
 
         // Создание первого проекта
-        Response responseMainProject = addProject(projectsList.get(0));
+        Response responseMainProject = reqProject.addProject(projectsList.get(0));
         responseMainProject.then()
                 .statusCode(201);
         Project projectMain = getResponseObject(responseMainProject.getBody().asString(), Project.class);
 
         // Создание второго проекта
-        Response responseSubProject = addProject(projectsList.get(1));
+        Response responseSubProject = reqProject.addProject(projectsList.get(1));
         responseSubProject.then()
                 .statusCode(201);
         Project projectSub = getResponseObject(responseSubProject.getBody().asString(), Project.class);
@@ -57,7 +65,7 @@ public class ProjectAPITest {
         subProject.setInheritParent(true);
 
         // Добавление проекта projectSub в проект projectMain
-        Response response = addSubproject(subProject, projectMain.getId());
+        Response response = reqProject.addSubproject(subProject, projectMain.getId());
         String resStatusLine = response
                 .then()
                 .log().status()
@@ -73,7 +81,7 @@ public class ProjectAPITest {
      */
     @Test
     public void deleteProjectNonExistTest() {
-        deleteProject(getMaxProjectId() + 100)
+        reqProject.deleteProject(reqProject.getMaxProjectId() + 100)
                 .then()
                 .log().status()
                 .statusCode(403);

@@ -15,14 +15,14 @@ public class IssueRequests extends BaseRequests {
     private static final String ISSUE_ENDPOINT = "/issues";
     private static final String ISSUE_UPDATE_ENDPOINT = "/issues/{issue_id}";
 
-    public static Response addIssue(Issue issue) {
+    public Response addIssue(Issue issue) {
         return given()
                 .spec(getRequestSpecificationWithBody(issue))
                 .when()
                 .post(ISSUE_ENDPOINT);
     }
 
-    public static Response updateIssue(Issue newIssue, long issueId) {
+    public Response updateIssue(Issue newIssue, long issueId) {
         Map<String, Long> mapPathParams = new HashMap<>();
         mapPathParams.put("issue_id", issueId);
         return given()
@@ -32,14 +32,14 @@ public class IssueRequests extends BaseRequests {
     }
 
 
-    private static Response getAllIssues() {
+    private Response getAllIssues() {
         return given()
                 .spec(getRequestSpecification())
                 .when()
                 .get(ISSUE_ENDPOINT + "?page_size=50&page=1");
     }
 
-    public static long getMaxIssueId() {
+    public long getMaxIssueId() {
 
         Response response = getAllIssues();
 
