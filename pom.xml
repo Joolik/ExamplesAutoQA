@@ -13,6 +13,7 @@
         <module>airline</module>
         <module>test-selenium</module>
         <module>test-api</module>
+        <module>test-cucumber</module>
     </modules>
 
     <properties>
